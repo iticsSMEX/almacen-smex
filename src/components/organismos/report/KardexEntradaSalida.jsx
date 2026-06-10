@@ -107,7 +107,7 @@ function KardexEntradaSalida() {
   const renderTableRow = (rowData, isHeader = false) => (
     <View style={styles.row} key={rowData.id ?? rowData._key}>
       <Text style={[styles.cell, isHeader && styles.headerCell]}>
-        {rowData.nombres}
+        {rowData.detalle}
       </Text>
       <Text style={[styles.cell, isHeader && styles.headerCell]}>
         {rowData.descripcion}
@@ -169,7 +169,7 @@ function KardexEntradaSalida() {
                   {renderTableRow(
                     {
                       _key: "header",
-                      nombres: "Usuario",
+                      detalle: "Motivo",
                       descripcion: "Producto",
                       tipo:"Tipo",
                       cantidad:"Cantidad",

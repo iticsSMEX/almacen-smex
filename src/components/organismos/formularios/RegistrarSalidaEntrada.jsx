@@ -17,13 +17,16 @@ import { CirclePicker } from "react-color";
 import Emojipicker from "emoji-picker-react";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
 import { useKardexStore } from "../../../store/KardexStore";
-import { DEFAULT_USUARIO_ID } from "../../../config/appConfig";
-
 export function RegistrarSalidaEntrada({ onClose, dataSelect, accion, tipo }) {
   const [stateListaProd, SetstateListaProd] = useState(false);
   const [focused, setFocused] = useState(false);
-  const { dataproductos, productoItemSelect, selectProductos, setBuscador } =
-    useProductosStore();
+  const {
+    dataproductos,
+    productoItemSelect,
+    selectProductos,
+    setBuscador,
+    mostrarProductos,
+  } = useProductosStore();
 
   const { insertarKardex } = useKardexStore();
   const { dataempresa } = useEmpresaStore();
@@ -43,16 +46,18 @@ export function RegistrarSalidaEntrada({ onClose, dataSelect, accion, tipo }) {
       // onClose();
     } else {
       const p = {
-        fecha: new Date(),
+        fecha: new Date().toISOString(),
         tipo: tipo,
-        id_usuario: DEFAULT_USUARIO_ID,
         id_producto: productoItemSelect.id,
-        cantidad:parseFloat( data.cantidad),
+        cantidad: parseFloat(data.cantidad),
         detalle: data.detalle,
-        id_empresa:dataempresa.id
+        id_empresa: dataempresa.id,
       };
-      await insertarKardex(p);
-      onClose();
+      const ok = await insertarKardex(p);
+      if (ok) {
+        await mostrarProductos({ _id_empresa: dataempresa.id });
+        onClose();
+      }
     }
   }
  
@@ -92,7 +97,8 @@ export function RegistrarSalidaEntrada({ onClose, dataSelect, accion, tipo }) {
             {productoItemSelect.descripcion}
           </span>
           <span className="stock-actual">
-            stock actual: {productoItemSelect.stock}
+            <span className="stock-etiqueta">stock actual:</span>{" "}
+            <span className="stock-valor">{productoItemSelect.stock}</span>
           </span>
         </CardProducto>
 
@@ -241,7 +247,13 @@ const CardProducto = styled.section`
     font-weight: bold;
   }
 
-  .stock-actual {
-    color: #f6faf7;
+  .stock-etiqueta {
+    color: #1e293b;
+    font-weight: ${({ $esSalida }) => ($esSalida ? 700 : 500)};
+  }
+
+  .stock-valor {
+    color: #000000;
+    font-weight: 700;
   }
 `;

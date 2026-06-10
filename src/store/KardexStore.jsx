@@ -10,10 +10,11 @@ export const useKardexStore = create((set, get) => ({
   parametros: {},
 
   insertarKardex: async (p) => {
-    await InsertarKardex(p);
-    const { mostrarKardex } = get();
-    const { parametros } = get();
-    set(mostrarKardex(parametros));
+    const ok = await InsertarKardex(p);
+    if (!ok) return false;
+    const { mostrarKardex, parametros } = get();
+    await mostrarKardex(parametros);
+    return true;
   },
   mostrarKardex: async (p) => {
     const response = await MostrarKardex(p);

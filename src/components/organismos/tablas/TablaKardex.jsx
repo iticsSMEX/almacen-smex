@@ -109,26 +109,10 @@ export function TablaKardex({
     },
     {
       accessorKey: "detalle",
-      header: "Delle",
+      header: "Motivo",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Usuario" className="ContentCell">
-          <span>{info.getValue()}</span>
-        </td>
-      ),
-      enableColumnFilter: true,
-      filterFn: (row, columnId, filterStatuses) => {
-        if (filterStatuses.length === 0) return true;
-        const status = row.getValue(columnId);
-        return filterStatuses.includes(status?.id);
-      },
-    },
-    {
-      accessorKey: "nombres",
-      header: "Usuario",
-      enableSorting: false,
-      cell: (info) => (
-        <td data-title="Usuario" className="ContentCell">
+        <td data-title="Motivo" className="ContentCell">
           <span>{info.getValue()}</span>
         </td>
       ),
@@ -160,7 +144,7 @@ export function TablaKardex({
       header: "Stock",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Usuario" className="ContentCell">
+        <td data-title="Stock" className="ContentCell">
           <span>{info.getValue()}</span>
         </td>
       ),

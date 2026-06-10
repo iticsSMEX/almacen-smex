@@ -1,57 +1,17 @@
 import { useState } from "react";
 import styled from "styled-components";
-import {
-  v,
-  useMovimientosStore,
-  useOperaciones,
-  TablaKardex,
-  useKardexStore,
-} from "../../index";
-import { useQuery } from "@tanstack/react-query";
-import { DEFAULT_USUARIO_ID } from "../../config/appConfig";
+import { v, TablaKardex, useKardexStore } from "../../index";
 
 export function Tabs() {
   const [activeTab, setactiveTab] = useState(0);
-  const handleClick = (index) => {
-    setactiveTab(index);
-  };
-  const idusuario = DEFAULT_USUARIO_ID;
   const { datakardex } = useKardexStore();
-  const { año, mes, tipo } = useOperaciones();
-  const { rptMovimientosAñoMes } = useMovimientosStore();
-
-  const { isLoading, error } = useQuery({
-    queryKey: [
-      "reporte movimientos",
-      {
-        año: año,
-        mes: mes,
-        tipocategoria: tipo,
-        idusuario: idusuario,
-      },
-    ],
-    queryFn: () =>
-      rptMovimientosAñoMes({
-        año: año,
-        mes: mes,
-        tipocategoria: tipo,
-        idusuario: idusuario,
-      }),
-  });
-
-  if (isLoading) {
-    return <LoadingText>Cargando...</LoadingText>;
-  }
-  if (error) {
-    return <LoadingText>Error al cargar datos</LoadingText>;
-  }
 
   return (
     <Container>
       <ul className="tabs">
         <li
           className={activeTab === 0 ? "active" : ""}
-          onClick={() => handleClick(0)}
+          onClick={() => setactiveTab(0)}
         >
           {<v.iconopie />}
           Kardex
@@ -64,12 +24,6 @@ export function Tabs() {
     </Container>
   );
 }
-
-const LoadingText = styled.p`
-  font-size: 13px;
-  color: ${({ theme }) => theme.textMuted};
-  padding: 16px;
-`;
 
 const Container = styled.div`
   display: flex;

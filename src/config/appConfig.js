@@ -9,9 +9,10 @@ export const DEFAULT_EMPRESA_ID = parseId(
   import.meta.env.VITE_DEFAULT_EMPRESA_ID
 );
 
-/** Usuario interno para kardex / reportes cuando la BD exige id_usuario. */
-export const DEFAULT_USUARIO_ID =
-  parseId(import.meta.env.VITE_DEFAULT_USUARIO_ID) ?? 1;
+/** Solo si la columna id_usuario en kardex es obligatoria en Supabase. */
+export const DEFAULT_USUARIO_ID = parseId(
+  import.meta.env.VITE_DEFAULT_USUARIO_ID,
+);
 
 /** Tabla de empresa en Supabase (evita probar varias tablas en serie). */
 export const EMPRESA_TABLE =

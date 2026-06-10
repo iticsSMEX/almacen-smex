@@ -20,12 +20,13 @@ export function Layout({ children }) {
   });
 
   const hasEmpresaId = dataempresa?.id != null;
+  const empresaResuelta = hasEmpresaId || !isLoading;
 
   useEffect(() => {
-    if (hasEmpresaId) {
+    if (empresaResuelta) {
       notifyShonanInventoryReady();
     }
-  }, [hasEmpresaId]);
+  }, [empresaResuelta]);
 
   if (isLoading && !hasEmpresaId) {
     return <SpinnerLoader compact />;
