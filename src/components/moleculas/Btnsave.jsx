@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { Icono } from "../../index";
 
 export function Btnsave({ funcion, titulo, bgcolor, icono, url, disabled, variant = "primary" }) {
+  const buttonType = funcion ? "button" : "submit";
+
   return (
     <Container
-      type="button"
+      type={buttonType}
       $bgcolor={bgcolor}
       $variant={variant}
       disabled={disabled}

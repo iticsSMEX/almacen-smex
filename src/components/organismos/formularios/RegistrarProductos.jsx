@@ -53,7 +53,7 @@ export function RegistrarProductos({ onClose, dataSelect, accion }) {
         idmarca: marcaItemSelect.id,
         stock: parseFloat(data.stock),
         stock_minimo: parseFloat(data.stockminimo),
-        codigobarras: parseFloat(data.codigobarras),
+        codigobarras: String(data.codigobarras ?? "").trim(),
         codigointerno: data.codigointerno,
         precioventa: parseFloat(data.precioventa),
         preciocompra: parseFloat(data.preciocompra),
@@ -70,7 +70,7 @@ export function RegistrarProductos({ onClose, dataSelect, accion }) {
         _idmarca: marcaItemSelect.id,
         _stock: parseFloat(data.stock),
         _stock_minimo: parseFloat(data.stockminimo),
-        _codigobarras: parseFloat(data.codigobarras),
+        _codigobarras: String(data.codigobarras ?? "").trim(),
         _codigointerno: data.codigointerno,
         _precioventa: parseFloat(data.precioventa),
         _preciocompra: parseFloat(data.preciocompra),
@@ -221,7 +221,9 @@ export function RegistrarProductos({ onClose, dataSelect, accion }) {
                 <input
                   className="form__field"
                   defaultValue={dataSelect.codigobarras}
-                  type="number"
+                  type="text"
+                  inputMode="text"
+                  autoComplete="off"
                   placeholder=""
                   {...register("codigobarras", {
                     required: true,
@@ -245,7 +247,7 @@ export function RegistrarProductos({ onClose, dataSelect, accion }) {
                     required: true,
                   })}
                 />
-                <label className="form__label">Codigo interno</label>
+                <label className="form__label">UBICACIÓN EN ALMACÉN</label>
 
                 {errors.codigointerno?.type === "required" && (
                   <p>Campo requerido</p>

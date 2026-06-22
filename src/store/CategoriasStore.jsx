@@ -26,29 +26,26 @@ export const useCategoriasStore = create((set, get) => ({
     set({ categoriaItemSelect: p });
   },
   insertarCategorias: async (p) => {
-    await InsertarCategorias(p);
-    const { mostrarCategorias } = get();
-    const { parametros } = get();
-    set(mostrarCategorias(parametros));
+    const ok = await InsertarCategorias(p);
+    if (!ok) return false;
+    const { mostrarCategorias, parametros } = get();
+    await mostrarCategorias(parametros);
+    return true;
   },
   eliminarCategoria: async (p) => {
     await EliminarCategorias(p);
-    const { mostrarCategorias } = get();
-    const { parametros } = get();
-    console.log("parametros", parametros);
-    set(mostrarCategorias(parametros));
+    const { mostrarCategorias, parametros } = get();
+    await mostrarCategorias(parametros);
   },
   eliminarCategoriasTodas: async (p) => {
     await EliminarCategoriasTodas(p);
     const { mostrarCategorias } = get();
-    set(mostrarCategorias(p));
+    await mostrarCategorias(p);
   },
   editarCategoria: async (p) => {
     await EditarCategorias(p);
-    const { mostrarCategorias } = get();
-    const { parametros } = get();
-    console.log("parametros", parametros);
-    set(mostrarCategorias(parametros));
+    const { mostrarCategorias, parametros } = get();
+    await mostrarCategorias(parametros);
   },
   buscarCategorias: async (p) => {
     const response = await BuscarCategorias(p);

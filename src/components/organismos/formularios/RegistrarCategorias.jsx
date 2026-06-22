@@ -28,6 +28,10 @@ export function RegistrarCategorias({ onClose, dataSelect, accion }) {
     handleSubmit,
   } = useForm();
   async function insertar(data) {
+    if (!dataempresa?.id) {
+      alert("No hay empresa activa. Recargue la página e intente de nuevo.");
+      return;
+    }
     if (accion === "Editar") {
       const p = {
         id: dataSelect.id,
@@ -47,9 +51,9 @@ export function RegistrarCategorias({ onClose, dataSelect, accion }) {
       };
 
       setEstadoproceso(true);
-      await insertarCategorias(p);
+      const ok = await insertarCategorias(p);
       setEstadoproceso(false);
-      onClose();
+      if (ok) onClose();
     }
   }
   useEffect(() => {
@@ -100,7 +104,10 @@ export function RegistrarCategorias({ onClose, dataSelect, accion }) {
                 {<v.paletacolores />}
                 <span>Color</span>
               </ContentTitle>
-              <div className="colorPickerContent">
+              <div
+                className="colorPickerContent"
+                onMouseDown={(e) => e.preventDefault()}
+              >
                 <CirclePicker onChange={elegirColor} color={currentColor} />
               </div>
             </div>

@@ -2,19 +2,25 @@ import { supabase } from "../index";
 import Swal from "sweetalert2";
 export async function InsertarCategorias(p) {
   try {
-     const { error } = await supabase.rpc("insertarcategorias", p);
-     if (error) {
+    const { error } = await supabase.rpc("insertarcategorias", p);
+    if (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
         text: "Ya existe un registro con " + p._descripcion,
         footer: '<a href="">Agregue una nueva descripcion</a>',
       });
+      return false;
     }
+    return true;
   } catch (error) {
-    
+    Swal.fire({
+      icon: "error",
+      title: "No se pudo guardar",
+      text: error?.message ?? "Error al registrar la categoría",
+    });
+    return false;
   }
- 
 }
 export async function MostrarCategorias(p) {
   try {
