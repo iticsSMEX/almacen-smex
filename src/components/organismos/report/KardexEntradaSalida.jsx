@@ -9,18 +9,14 @@ import {
   PDFViewer,
 } from "@react-pdf/renderer";
 import {
-  Buscador,
-  ListaGenerica,
+  BuscadorProductos,
   useEmpresaStore,
   useProductosStore,
 } from "../../../index";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 
 function KardexEntradaSalida() {
-  const [stateListaproductos, setstateListaProductos] = useState(false);
-  const { reportKardexEntradaSalida, buscarProductos, buscador, setBuscador ,selectProductos,productoItemSelect} =
-    useProductosStore();
+  const { reportKardexEntradaSalida, productoItemSelect } = useProductosStore();
   const { dataempresa } = useEmpresaStore();
   const idEmpresa = dataempresa?.id;
   const idProducto = productoItemSelect?.id;
@@ -38,26 +34,7 @@ function KardexEntradaSalida() {
     },
     enabled: Boolean(idEmpresa && idProducto),
   });
-  const {
-    data: dataproductosbuscador,
-    isLoading: ProductosBuscador,
-    error: errorBuscador,
-  } = useQuery({
-    queryKey: [
-      "buscar productos",
-      { id_empresa: dataempresa?.id, descripcion: buscador },
-    ],
-    queryFn: () =>
-      buscarProductos({ id_empresa: dataempresa?.id, descripcion: buscador }),
-    enabled: !!dataempresa,
-  });
 
-  // if (isLoading) {
-  //   return <span>cargando</span>;
-  // }
-  // if (error) {
-  //   return <span>Error {error.message}</span>;
-  // }
   const styles = StyleSheet.create({
     page: { flexDirection: "row", position: "relative" },
     section: { margin: 10, padding: 10, flexGrow: 1 },
@@ -129,19 +106,7 @@ function KardexEntradaSalida() {
   );
   return (
     <Container>
-      <Buscador
-        funcion={() => setstateListaProductos(!stateListaproductos)}
-        setBuscador={setBuscador}
-      />
-      {stateListaproductos && (
-        <ListaGenerica funcion={(p)=>{
-          selectProductos(p)
-          setBuscador("")
-        }}
-          setState={() => setstateListaProductos(!stateListaproductos)}
-          data={dataproductosbuscador}
-        />
-      )}
+      <BuscadorProductos scope="reporte-kardex-entrada-salida" />
 
       {!idProducto && (
         <MensajeSeleccion>

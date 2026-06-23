@@ -5,25 +5,21 @@ import { SpinnerLoader } from "../components/moleculas/SpinnerLoader";
 import { ProductosTemplate } from "../components/templates/ProductosTemplate";
 import { useProductosStore } from "../store/ProductosStore";
 import { useMarcaStore } from "../store/MarcaStore";
+import { useCatalogoProductos } from "../hooks/useCatalogoProductos";
+import { useEffect } from "react";
 
 export function Productos() {
-  const { mostrarProductos, dataproductos, buscador, buscarProductos } =
-    useProductosStore();
+  const { setBuscador } = useProductosStore();
   const { mostrarCategorias } = useCategoriasStore();
   const { mostrarMarca } = useMarcaStore();
   const { dataempresa } = useEmpresaStore();
+  const { productos, isLoading, error } = useCatalogoProductos("pagina-productos");
 
-  const { isLoading, error } = useQuery({
-    queryKey: ["mostrar productos", dataempresa?.id],
-    queryFn: () => mostrarProductos({ _id_empresa: dataempresa?.id }),
-    enabled: !!dataempresa?.id,
-  });
-  useQuery({
-    queryKey: ["buscar productos", buscador],
-    queryFn: () =>
-      buscarProductos({ descripcion: buscador, id_empresa: dataempresa?.id }),
-    enabled: !!dataempresa?.id && String(buscador ?? "").trim().length > 0,
-  });
+  useEffect(() => {
+    setBuscador("");
+    return () => setBuscador("");
+  }, [setBuscador]);
+
   useQuery({
     queryKey: ["mostrar marcas", dataempresa?.id],
     queryFn: () => mostrarMarca({ id_empresa: dataempresa?.id }),
@@ -42,5 +38,5 @@ export function Productos() {
     return <span>Error...</span>;
   }
 
-  return <ProductosTemplate data={dataproductos} />;
+  return <ProductosTemplate data={productos} />;
 }

@@ -21,6 +21,7 @@ export * from './components/moleculas/SpinnerLoader';
 export * from './components/moleculas/fondosAnimados/Fondo1';
 export * from './components/organismos/BannerHome';
 export * from './components/organismos/Buscador';
+export * from './components/organismos/BuscadorProductos';
 export * from './components/organismos/CalendarioLineal';
 export * from './components/organismos/CardEliminarData';
 export * from './components/organismos/CardTotales';

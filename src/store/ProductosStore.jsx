@@ -5,8 +5,12 @@ import {
   EliminarProductos,
   InsertarProductos,
   MostrarProductos,
-  ReportStockProductosTodos,ReportStockXProducto,ReportStockBajoMinimo,ReportKardexEntradaSalida,ReportInventarioValorado
-} from "../index";
+  ReportStockProductosTodos,
+  ReportStockXProducto,
+  ReportStockBajoMinimo,
+  ReportKardexEntradaSalida,
+  ReportInventarioValorado,
+} from "../supabase/crudProductos";
 export const useProductosStore = create((set, get) => ({
   buscador: "",
   setBuscador: (p) => {
@@ -27,24 +31,21 @@ export const useProductosStore = create((set, get) => ({
   },
   insertarProductos: async (p) => {
     await InsertarProductos(p);
-    const { mostrarProductos } = get();
-    const { parametros } = get();
-    set(mostrarProductos(parametros));
+    const { mostrarProductos, parametros } = get();
+    await mostrarProductos(parametros);
   },
   eliminarProductos: async (p) => {
     await EliminarProductos(p);
-    const { mostrarProductos } = get();
-    const { parametros } = get();
-    console.log("parametros", parametros);
-    set(mostrarProductos(parametros));
+    const { mostrarProductos, parametros } = get();
+    await mostrarProductos(parametros);
   },
 
   editarProductos: async (p) => {
-    await EditarProductos(p);
-    const { mostrarProductos } = get();
-    const { parametros } = get();
-    console.log("parametros", parametros);
-    set(mostrarProductos(parametros));
+    const ok = await EditarProductos(p);
+    if (!ok) return false;
+    const { mostrarProductos, parametros } = get();
+    await mostrarProductos(parametros);
+    return true;
   },
   buscarProductos: async (p) => {
     const response = await BuscarProductos(p);

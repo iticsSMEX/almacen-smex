@@ -9,18 +9,14 @@ import {
   PDFViewer,
 } from "@react-pdf/renderer";
 import {
-  Buscador,
-  ListaGenerica,
+  BuscadorProductos,
   useEmpresaStore,
   useProductosStore,
 } from "../../../index";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 
 function StockActualPorProducto() {
-  const [stateListaproductos, setstateListaProductos] = useState(false);
-  const { reportStockXproducto, buscarProductos, buscador, setBuscador ,selectProductos,productoItemSelect} =
-    useProductosStore();
+  const { reportStockXproducto, productoItemSelect } = useProductosStore();
   const { dataempresa } = useEmpresaStore();
   const idEmpresa = dataempresa?.id;
   const idProducto = productoItemSelect?.id;
@@ -30,26 +26,7 @@ function StockActualPorProducto() {
       reportStockXproducto({ id_empresa: idEmpresa, id: idProducto }),
     enabled: Boolean(idEmpresa && idProducto),
   });
-  const {
-    data: dataproductosbuscador,
-    isLoading: ProductosBuscador,
-    error: errorBuscador,
-  } = useQuery({
-    queryKey: [
-      "buscar productos",
-      { id_empresa: dataempresa?.id, descripcion: buscador },
-    ],
-    queryFn: () =>
-      buscarProductos({ id_empresa: dataempresa?.id, descripcion: buscador }),
-    enabled: !!dataempresa,
-  });
 
-  // if (isLoading) {
-  //   return <span>cargando</span>;
-  // }
-  // if (error) {
-  //   return <span>Error {error.message}</span>;
-  // }
   const styles = StyleSheet.create({
     page: { flexDirection: "row", position: "relative" },
     section: { margin: 10, padding: 10, flexGrow: 1 },
@@ -99,19 +76,7 @@ function StockActualPorProducto() {
   );
   return (
     <Container>
-      <Buscador
-        funcion={() => setstateListaProductos(!stateListaproductos)}
-        setBuscador={setBuscador}
-      />
-      {stateListaproductos && (
-        <ListaGenerica funcion={(p)=>{
-          selectProductos(p)
-          setBuscador("")
-        }}
-          setState={() => setstateListaProductos(!stateListaproductos)}
-          data={dataproductosbuscador}
-        />
-      )}
+      <BuscadorProductos scope="reporte-stock-producto" />
 
       {!idProducto && (
         <MensajeSeleccion>

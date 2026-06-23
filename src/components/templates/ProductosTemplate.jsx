@@ -36,7 +36,10 @@ export function ProductosTemplate({data}) {
         </ContentFiltro>
       </section>
       <section className="area2">
-        <Buscador setBuscador={setBuscador}/>
+        <Buscador
+          setBuscador={setBuscador}
+          placeholder="Nombre, código de barras o ubicación"
+        />
       </section>
       <section className="main">
       {data?.length == 0 && (

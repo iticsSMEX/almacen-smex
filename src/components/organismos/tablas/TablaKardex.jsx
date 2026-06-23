@@ -66,9 +66,9 @@ export function TablaKardex({
       header: "Fecha",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Fecha" className="ContentCell">
-          <span>{info.getValue()}</span>
-        </td>
+        <span data-title="Fecha" className="ContentCell">
+          {info.getValue()}
+        </span>
       ),
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {
@@ -82,7 +82,7 @@ export function TablaKardex({
       header: "Tipo",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Tipo" className="ContentCell">
+        <span data-title="Tipo" className="ContentCell">
           {info.getValue() == "salida" ? (
             <Colorcontent
               color="#ed4d4d"
@@ -98,7 +98,7 @@ export function TablaKardex({
             {info.getValue()}
           </Colorcontent>
           )}
-        </td>
+        </span>
       ),
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {
@@ -112,9 +112,9 @@ export function TablaKardex({
       header: "Motivo",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Motivo" className="ContentCell">
-          <span>{info.getValue()}</span>
-        </td>
+        <span data-title="Motivo" className="ContentCell">
+          {info.getValue()}
+        </span>
       ),
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {
@@ -128,9 +128,9 @@ export function TablaKardex({
       header: "Cantidad",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Cantidad" className="ContentCell">
-          <span>{info.getValue()}</span>
-        </td>
+        <span data-title="Cantidad" className="ContentCell">
+          {info.getValue()}
+        </span>
       ),
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {
@@ -144,9 +144,9 @@ export function TablaKardex({
       header: "Stock",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Stock" className="ContentCell">
-          <span>{info.getValue()}</span>
-        </td>
+        <span data-title="Stock" className="ContentCell">
+          {info.getValue()}
+        </span>
       ),
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {

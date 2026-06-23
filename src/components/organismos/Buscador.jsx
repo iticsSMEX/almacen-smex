@@ -1,20 +1,30 @@
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
 
-export function Buscador({ setBuscador, onFocus, funcion }) {
+export function Buscador({
+  setBuscador,
+  onFocus,
+  funcion,
+  onKeyDown,
+  placeholder = "Buscar...",
+  inputRef,
+}) {
   function buscar(e) {
     setBuscador(e.target.value);
   }
-  function ejecutarfuncion() {
+  function ejecutarfuncion(e) {
+    e.stopPropagation();
     funcion?.();
   }
   return (
     <Container onClick={ejecutarfuncion}>
       <FaSearch className="icono" />
       <input
+        ref={inputRef}
         onFocus={onFocus}
         onChange={buscar}
-        placeholder="Buscar..."
+        onKeyDown={(e) => onKeyDown?.(e, e.currentTarget.value)}
+        placeholder={placeholder}
       />
     </Container>
   );

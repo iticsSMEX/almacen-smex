@@ -68,9 +68,9 @@ export function TablaProductos({
       header: "Stock min",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Stock" className="ContentCell">
-          <span>{info.getValue()}</span>
-        </td>
+        <span data-title="Stock" className="ContentCell">
+          {info.getValue()}
+        </span>
       ),
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {
@@ -85,15 +85,14 @@ export function TablaProductos({
       enableSorting: false,
       cell: (info) => {
         return (
-          <td data-title="Categoria" className="ContentCell">
+          <span data-title="Categoria" className="ContentCell">
             <Colorcontent
               color={info.row.original.color}
               className="contentCategoria"
             >
-             
               {info.getValue()}
             </Colorcontent>
-          </td>
+          </span>
         );
       },
 
@@ -109,9 +108,9 @@ export function TablaProductos({
       header: "Cod.barras",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Cod. barras" className="ContentCell">
-          <span>{info.getValue()}</span>
-        </td>
+        <span data-title="Cod. barras" className="ContentCell">
+          {info.getValue()}
+        </span>
       ),
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {
@@ -125,9 +124,9 @@ export function TablaProductos({
       header: "Pr. venta",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Precio venta" className="ContentCell">
-          <span>{info.getValue()}</span>
-        </td>
+        <span data-title="Precio venta" className="ContentCell">
+          {info.getValue()}
+        </span>
       ),
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {
@@ -141,9 +140,9 @@ export function TablaProductos({
       header: "Pr. de compra",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Precio compra" className="ContentCell">
-          <span>{info.getValue()}</span>
-        </td>
+        <span data-title="Precio compra" className="ContentCell">
+          {info.getValue()}
+        </span>
       ),
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {
@@ -157,12 +156,12 @@ export function TablaProductos({
       header: "",
       enableSorting: false,
       cell: (info) => (
-        <td data-title="Acciones" className="ContentCell">
+        <span data-title="Acciones" className="ContentCell">
           <ContentAccionesTabla
             funcionEditar={() => editar(info.row.original)}
             funcionEliminar={() => eliminar(info.row.original.id)}
           />
-        </td>
+        </span>
       ),
       enableColumnFilter: true,
       filterFn: (row, columnId, filterStatuses) => {

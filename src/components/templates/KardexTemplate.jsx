@@ -22,9 +22,11 @@ export function KardexTemplate({data}) {
   return (
     <Container>
       {openRegistro && (
-        <RegistrarSalidaEntrada tipo={tipo}
+        <RegistrarSalidaEntrada
+          key={tipo}
+          tipo={tipo}
           dataSelect={dataSelect}
-          onClose={() => SetopenRegistro(!openRegistro)}
+          onClose={() => SetopenRegistro(false)}
           accion={accion}
         />
       )}

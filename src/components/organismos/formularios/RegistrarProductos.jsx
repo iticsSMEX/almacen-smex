@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useQueryClient } from "@tanstack/react-query";
 import { v } from "../../../styles/variables";
 import {
   InputText,
@@ -21,6 +22,7 @@ import Emojipicker from "emoji-picker-react";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
 import { Device } from "../../../styles/breakpoints";
 export function RegistrarProductos({ onClose, dataSelect, accion }) {
+  const queryClient = useQueryClient();
   const { insertarProductos, editarProductos } = useProductosStore();
   const { datamarca, selectMarca, marcaItemSelect } = useMarcaStore();
   const { datacategorias, categoriaItemSelect, selectCategoria } =
@@ -46,6 +48,10 @@ export function RegistrarProductos({ onClose, dataSelect, accion }) {
     watch,
   } = useForm();
   async function insertar(data) {
+    if (!marcaItemSelect?.id || !categoriaItemSelect?.id) {
+      return;
+    }
+
     if (accion === "Editar") {
       const p = {
         id: dataSelect.id,
@@ -61,8 +67,11 @@ export function RegistrarProductos({ onClose, dataSelect, accion }) {
         id_empresa: dataempresa.id,
       };
 
-      await editarProductos(p);
+      const ok = await editarProductos(p);
+      if (!ok) return;
 
+      await queryClient.invalidateQueries({ queryKey: ["catalogo productos"] });
+      await queryClient.invalidateQueries({ queryKey: ["buscar productos"] });
       onClose();
     } else {
       const p = {
@@ -79,15 +88,35 @@ export function RegistrarProductos({ onClose, dataSelect, accion }) {
       };
 
       await insertarProductos(p);
+      await queryClient.invalidateQueries({ queryKey: ["catalogo productos"] });
+      await queryClient.invalidateQueries({ queryKey: ["buscar productos"] });
       onClose();
     }
   }
   useEffect(() => {
-    if (accion === "Editar") {
-      selectMarca({id:dataSelect.idmarca,descripcion:dataSelect.marca})
-      selectCategoria({id:dataSelect.id_categoria,descripcion:dataSelect.categoria})
-    }
-  }, []);
+    if (accion !== "Editar" || !dataSelect?.id) return;
+
+    const marca =
+      datamarca?.find((m) => m.id === dataSelect.idmarca) ?? {
+        id: dataSelect.idmarca,
+        descripcion: dataSelect.marca ?? "",
+      };
+    const categoria =
+      datacategorias?.find((c) => c.id === dataSelect.id_categoria) ?? {
+        id: dataSelect.id_categoria,
+        descripcion: dataSelect.categoria ?? "",
+      };
+
+    if (marca?.id) selectMarca(marca);
+    if (categoria?.id) selectCategoria(categoria);
+  }, [
+    accion,
+    dataSelect,
+    datamarca,
+    datacategorias,
+    selectMarca,
+    selectCategoria,
+  ]);
   return (
     <Container>
      
