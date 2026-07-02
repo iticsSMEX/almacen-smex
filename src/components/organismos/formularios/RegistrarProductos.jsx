@@ -171,8 +171,10 @@ export function RegistrarProductos({ onClose, dataSelect, accion }) {
               />
               {stateMarca && (
                 <ListaGenerica
-                  bottom="-260px"
+                  bottom="-310px"
                   scroll="scroll"
+                  buscable
+                  searchPlaceholder="Buscar marca..."
                   setState={() => setStateMarca(!stateMarca)}
                   data={datamarca}
                   funcion={selectMarca}
@@ -237,6 +239,8 @@ export function RegistrarProductos({ onClose, dataSelect, accion }) {
                 <ListaGenerica
                   bottom="50px"
                   scroll="scroll"
+                  buscable
+                  searchPlaceholder="Buscar categoría..."
                   setState={() => setStateCategoria(!stateCategoria)}
                   data={datacategorias}
                   funcion={selectCategoria}
